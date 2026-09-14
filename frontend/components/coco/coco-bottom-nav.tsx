@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   LayoutDashboard,
   Radio,
@@ -14,7 +14,6 @@ import {
   Newspaper,
   SlidersHorizontal,
   LogOut,
-  Home,
   X,
   ChevronRight,
   Crosshair,
@@ -27,7 +26,6 @@ const MORE_LINKS = [
   { label: 'Real Chart Analyzer', href: '/real-chart-analyzer', icon: ScanSearch },
   { label: 'News Signals', href: '/news-signals', icon: Newspaper },
   { label: 'Management', href: '/management', icon: SlidersHorizontal },
-  { label: 'Landing page', href: '/', icon: Home },
 ]
 
 const ANALYZERS = [
@@ -40,8 +38,16 @@ export function CocoBottomNav() {
   const router = useRouter()
   const { profile, logout } = useAuth()
   const [sheet, setSheet] = useState<'more' | 'analyzer' | null>(null)
+  const [closing, setClosing] = useState(false)
+  const [drag, setDrag] = useState(0)
+  const dragging = useRef(false)
+  const startY = useRef(0)
 
-  useEffect(() => setSheet(null), [pathname])
+  useEffect(() => {
+    setSheet(null)
+    setClosing(false)
+    setDrag(0)
+  }, [pathname])
 
   useEffect(() => {
     if (!sheet) return
@@ -51,12 +57,64 @@ export function CocoBottomNav() {
     }
   }, [sheet])
 
+  // Animated close: play the slide-down, then unmount.
+  function closeSheet() {
+    setClosing(true)
+    window.setTimeout(() => {
+      setSheet(null)
+      setClosing(false)
+      setDrag(0)
+    }, 170)
+  }
+
+  function toggleSheet(next: 'more' | 'analyzer') {
+    if (sheet === next && !closing) {
+      closeSheet()
+      return
+    }
+    setClosing(false)
+    setDrag(0)
+    setSheet(next)
+  }
+
+  /* Swipe / drag the sheet downwards to dismiss it. */
+  function onPointerDown(e: React.PointerEvent) {
+    // Never hijack taps on real controls (close button etc.)
+    if ((e.target as HTMLElement).closest('button, a')) return
+    dragging.current = true
+    startY.current = e.clientY
+    e.currentTarget.setPointerCapture?.(e.pointerId)
+  }
+
+  function onPointerMove(e: React.PointerEvent) {
+    if (!dragging.current) return
+    const dy = e.clientY - startY.current
+    setDrag(dy > 0 ? Math.min(dy, 320) : Math.max(dy / 4, -16))
+  }
+
+  function onPointerUp() {
+    if (!dragging.current) return
+    dragging.current = false
+    if (drag > 90) {
+      closeSheet()
+    } else {
+      setDrag(0)
+    }
+  }
+
   const analyzerActive = ANALYZERS.some((a) => a.href === pathname)
-  const moreActive = MORE_LINKS.some((l) => l.href === pathname && l.href !== '/')
+  const moreActive = MORE_LINKS.some((l) => l.href === pathname)
 
   async function handleLogout() {
     await logout()
     router.push('/login')
+  }
+
+  const grabHandlers = {
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    onPointerCancel: onPointerUp,
   }
 
   return (
@@ -66,35 +124,50 @@ export function CocoBottomNav() {
           <button
             type="button"
             aria-label="Close menu"
-            onClick={() => setSheet(null)}
-            className="absolute inset-0 cursor-default bg-[#07041a]/75 backdrop-blur-sm"
+            onClick={closeSheet}
+            className={cn(
+              'absolute inset-0 cursor-default bg-[#07041a]/80 transition-opacity duration-150',
+              closing && 'opacity-0',
+            )}
           />
-          <div className="coco-sheet absolute inset-x-0 bottom-0 pb-[104px]">
+          <div
+            className={cn(
+              'coco-sheet absolute inset-x-0 bottom-0 pb-[max(14px,env(safe-area-inset-bottom))]',
+              closing && 'is-closing',
+              drag !== 0 && 'is-dragging',
+            )}
+            style={drag !== 0 ? { transform: `translate3d(0,${drag}px,0)` } : undefined}
+          >
+            {/* Grab bar — drag the sheet down to close it */}
+            <div
+              className="flex touch-none select-none items-center justify-center pb-1 pt-3"
+              {...grabHandlers}
+              data-testid="bottom-sheet-grab"
+            >
+              <span className="coco-sheet-grab" aria-hidden="true" />
+            </div>
+
             {sheet === 'more' ? (
               <>
-                <div className="flex items-center gap-3 border-b border-white/8 px-5 pb-4 pt-5">
-                  <span className="relative h-11 w-11 overflow-hidden rounded-2xl ring-1 ring-white/15">
-                    <Image src="/coco-ai.jpg" alt="Coco AI" fill sizes="44px" className="object-cover" />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="coco-sub truncate text-[15px] text-white">
-                      {profile?.name || 'Trader'}
-                    </p>
-                    <p className="coco-mono text-[10px] uppercase tracking-[0.12em] text-[#c4a6ff]/80">
-                      {profile?.plan || 'free'} plan
-                    </p>
-                  </div>
+                <div
+                  className="flex touch-none items-center justify-between gap-3 px-5 pb-3 pt-1"
+                  {...grabHandlers}
+                >
+                  <p className="coco-mono text-[10px] uppercase tracking-[0.16em] text-white/45">
+                    Quick menu
+                  </p>
                   <button
                     type="button"
-                    onClick={() => setSheet(null)}
+                    onClick={closeSheet}
                     aria-label="Close menu"
-                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/12 bg-white/[0.06] text-white/70"
+                    className="coco-sheet-close"
                     data-testid="bottom-nav-more-close"
                   >
                     <X className="h-4 w-4" />
                   </button>
                 </div>
-                <nav className="flex flex-col gap-1.5 px-3 py-3">
+
+                <nav className="flex flex-col gap-1.5 px-3 pb-2">
                   {MORE_LINKS.map((l) => (
                     <Link
                       key={l.href}
@@ -109,24 +182,62 @@ export function CocoBottomNav() {
                       <ChevronRight className="ml-auto h-4 w-4 text-white/30" />
                     </Link>
                   ))}
+                </nav>
+
+                {/* Operator identity sits at the bottom of the sheet */}
+                <div className="px-3 pt-2">
+                  <div className="coco-sheet-user" data-testid="bottom-sheet-user">
+                    <span className="relative h-11 w-11 flex-none overflow-hidden rounded-2xl ring-1 ring-white/15">
+                      <Image
+                        src="/coco-ai.jpg"
+                        alt="Coco AI"
+                        fill
+                        sizes="44px"
+                        className="object-cover"
+                      />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="coco-sub truncate text-[15px] text-white">
+                        {profile?.name || 'Trader'}
+                      </p>
+                      <p className="coco-mono truncate text-[10px] uppercase tracking-[0.14em] text-[#c4a6ff]/85">
+                        {profile?.plan || 'free'} plan
+                      </p>
+                    </div>
+                  </div>
+
                   <button
                     type="button"
                     onClick={handleLogout}
-                    className="coco-sheet-link text-[#ff8f8f]"
+                    className="coco-sheet-logout mt-2.5"
                     data-testid="bottom-nav-logout"
                   >
-                    <span className="coco-sheet-link-icon border-[#ff8f8f]/25 bg-[#ff8f8f]/10 text-[#ff8f8f]">
+                    <span className="coco-sheet-logout-icon">
                       <LogOut className="h-[18px] w-[18px]" />
                     </span>
                     Log out
                   </button>
-                </nav>
+                </div>
               </>
             ) : (
-              <nav className="flex flex-col gap-1.5 px-3 py-4">
-                <p className="coco-mono px-3 pb-2 text-[10px] uppercase tracking-[0.14em] text-white/40">
-                  Choose analyzer
-                </p>
+              <nav className="flex flex-col gap-1.5 px-3 pb-2 pt-1">
+                <div
+                  className="flex touch-none items-center justify-between gap-3 px-3 pb-2"
+                  {...grabHandlers}
+                >
+                  <p className="coco-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
+                    Choose analyzer
+                  </p>
+                  <button
+                    type="button"
+                    onClick={closeSheet}
+                    aria-label="Close menu"
+                    className="coco-sheet-close"
+                    data-testid="bottom-nav-analyzer-close"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
                 {ANALYZERS.map((l) => (
                   <Link
                     key={l.href}
@@ -168,7 +279,7 @@ export function CocoBottomNav() {
 
         <button
           type="button"
-          onClick={() => setSheet(sheet === 'analyzer' ? null : 'analyzer')}
+          onClick={() => toggleSheet('analyzer')}
           aria-label="Chart analyzer"
           className={cn('coco-bnav-center', analyzerActive && 'is-active')}
           data-testid="bottom-nav-analyzer"
@@ -190,7 +301,7 @@ export function CocoBottomNav() {
 
         <button
           type="button"
-          onClick={() => setSheet(sheet === 'more' ? null : 'more')}
+          onClick={() => toggleSheet('more')}
           className={cn('coco-bnav-item', (moreActive || sheet === 'more') && 'is-active')}
           data-testid="bottom-nav-more"
         >
