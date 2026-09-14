@@ -62,7 +62,7 @@ const navSections = [
   },
 ]
 
-export function TopNav() {
+export function TopNav({ bottomNav = true }: { bottomNav?: boolean } = {}) {
   const pathname = usePathname()
   const router = useRouter()
   const { profile, logout } = useAuth()
@@ -525,7 +525,7 @@ export function TopNav() {
           document.body,
         )}
     </header>
-    <CocoBottomNav />
+    {bottomNav && <CocoBottomNav />}
     </>
   )
 }
