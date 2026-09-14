@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ScanLine, ScanSearch, Building2, X } from 'lucide-react'
+import { Building2, X } from 'lucide-react'
+import { GlyphOtcPrism, GlyphRealPulse } from '@/components/analyzer-glyphs'
 import {
   BROKERS,
   readStoredBroker,
@@ -15,9 +16,11 @@ import { cn } from '@/lib/utils'
 
 type Mode = 'otc' | 'real'
 
-const TABS: { mode: Mode; label: string; href: string; icon: typeof ScanLine }[] = [
-  { mode: 'otc', label: 'OTC', href: '/otc-chart-analyzer', icon: ScanLine },
-  { mode: 'real', label: 'Real', href: '/real-chart-analyzer', icon: ScanSearch },
+type Glyph = ({ className }: { className?: string }) => JSX.Element
+
+const TABS: { mode: Mode; label: string; href: string; icon: Glyph }[] = [
+  { mode: 'otc', label: 'OTC', href: '/otc-chart-analyzer', icon: GlyphOtcPrism },
+  { mode: 'real', label: 'Real', href: '/real-chart-analyzer', icon: GlyphRealPulse },
 ]
 
 export function AnalyzerModeSwitch({ mode }: { mode: Mode }) {
@@ -66,7 +69,7 @@ export function AnalyzerModeSwitch({ mode }: { mode: Mode }) {
               className={cn('coco-seg-item', active && 'is-active')}
               data-testid={`analyzer-tab-${tab.mode}`}
             >
-              <tab.icon className="h-4 w-4" />
+              <tab.icon className="h-[17px] w-[17px]" />
               {tab.label}
             </button>
           )

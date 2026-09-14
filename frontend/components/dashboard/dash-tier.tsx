@@ -15,20 +15,19 @@ import {
 import {
   GlyphTier,
   GlyphQuota,
-  GlyphScanOtc,
-  GlyphCandles,
   GlyphOrbit,
   GlyphPulseLive,
   GlyphInfinite,
   GlyphVault,
   GlyphClockRing,
 } from '@/components/dashboard/dash-glyphs'
+import { GlyphOtcPrism, GlyphRealPulse } from '@/components/analyzer-glyphs'
 
 type Glyph = ({ className }: { className?: string }) => JSX.Element
 
 const FEATURE_GLYPH: Record<FeatureKey, Glyph> = {
-  'otc-chart-analyzer': GlyphScanOtc,
-  'real-chart-analyzer': GlyphCandles,
+  'otc-chart-analyzer': GlyphOtcPrism,
+  'real-chart-analyzer': GlyphRealPulse,
   'future-signals': GlyphOrbit,
   'live-signals': GlyphPulseLive,
 }

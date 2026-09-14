@@ -3,14 +3,13 @@
 import Link from 'next/link'
 import {
   GlyphToolkit,
-  GlyphScanOtc,
-  GlyphCandles,
   GlyphOrbit,
   GlyphNewsWire,
   GlyphPulseLive,
   GlyphConsole,
   GlyphArrowCorner,
 } from '@/components/dashboard/dash-glyphs'
+import { GlyphOtcPrism, GlyphRealPulse } from '@/components/analyzer-glyphs'
 
 type Glyph = ({ className }: { className?: string }) => JSX.Element
 
@@ -34,14 +33,14 @@ const TOOLS: Tool[] = [
     name: 'OTC Chart Analyzer',
     subtitle: 'AI reverse-logic OTC verdict.',
     href: '/otc-chart-analyzer',
-    glyph: GlyphScanOtc,
+    glyph: GlyphOtcPrism,
     ...IRIS,
   },
   {
     name: 'Real Chart Analyzer',
     subtitle: 'Direct 1-minute trade signal.',
     href: '/real-chart-analyzer',
-    glyph: GlyphCandles,
+    glyph: GlyphRealPulse,
     ...EMERALD,
   },
   {

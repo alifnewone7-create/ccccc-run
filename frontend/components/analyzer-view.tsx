@@ -6,13 +6,8 @@ import { CocoHeroBg } from '@/components/coco/coco-hero-bg'
 import { AuthGuard } from '@/components/auth-guard'
 import { ChartAnalyzer } from '@/components/chart-analyzer'
 import { AnalyzerModeSwitch } from '@/components/analyzer-mode-switch'
-import {
-  GlyphScanOtc,
-  GlyphCandles,
-  GlyphQuota,
-  GlyphOrbit,
-  GlyphToolkit,
-} from '@/components/dashboard/dash-glyphs'
+import { GlyphQuota, GlyphOrbit, GlyphToolkit } from '@/components/dashboard/dash-glyphs'
+import { GlyphOtcPrism, GlyphRealPulse } from '@/components/analyzer-glyphs'
 
 type Mode = 'otc' | 'real'
 
@@ -20,12 +15,10 @@ const COPY = {
   otc: {
     eyebrow: 'OTC engine',
     title: 'OTC Chart Analyzer',
-    lead: 'Upload an OTC chart screenshot. Coco AI applies reverse logic across candle structure, trend shift and key levels, then hands back a clean 1-minute bias.',
   },
   real: {
     eyebrow: 'Real market engine',
     title: 'Real Chart Analyzer',
-    lead: 'Upload a live market chart. Coco AI reads price action, momentum and support or resistance, then returns a direct 1-minute trade call.',
   },
 } as const
 
@@ -49,7 +42,7 @@ const STEPS = [
 
 export function AnalyzerView({ mode }: { mode: Mode }) {
   const copy = COPY[mode]
-  const Glyph = mode === 'otc' ? GlyphScanOtc : GlyphCandles
+  const Glyph = mode === 'otc' ? GlyphOtcPrism : GlyphRealPulse
 
   return (
     <AuthGuard>
@@ -77,9 +70,6 @@ export function AnalyzerView({ mode }: { mode: Mode }) {
                   <h1 className="coco-display coco-title-gradient mx-auto mt-4 max-w-[20ch] text-balance text-[1.75rem] leading-tight sm:text-[2.4rem]">
                     {copy.title}
                   </h1>
-                  <p className="mx-auto mt-3 max-w-[56ch] text-pretty text-[13px] leading-relaxed text-white/60 sm:text-sm">
-                    {copy.lead}
-                  </p>
                 </header>
 
                 <AnalyzerModeSwitch mode={mode} />
