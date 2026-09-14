@@ -1570,3 +1570,241 @@
   width: 50%;
   height: 50%;
 }
+
+
+/* ── Dashboard v2: home-page design language ─────────────────────────── */
+
+/* Dark hero panel (glass over the dark zone) */
+.coco-d2-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.025) 100%);
+  backdrop-filter: blur(16px);
+  padding: 22px;
+  box-shadow:
+    rgba(255, 255, 255, 0.08) 0 1px 0 0 inset,
+    rgba(10, 4, 30, 0.55) 0 28px 60px -28px;
+}
+@media (min-width: 640px) {
+  .coco-d2-hero {
+    padding: 30px 32px;
+    border-radius: 30px;
+  }
+}
+.coco-d2-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(70% 90% at 92% -10%, rgba(180, 140, 255, 0.22), transparent 64%);
+}
+.coco-d2-hero-line {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196, 166, 255, 0.75), transparent);
+}
+
+.coco-d2-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 86px;
+  width: 86px;
+  flex: none;
+  border-radius: 24px;
+  padding: 3px;
+  background: linear-gradient(150deg, rgba(196, 166, 255, 0.9), rgba(109, 59, 255, 0.55) 45%, rgba(255, 255, 255, 0.14));
+  box-shadow: rgba(109, 59, 255, 0.45) 0 16px 40px -16px;
+}
+@media (min-width: 640px) {
+  .coco-d2-avatar {
+    height: 104px;
+    width: 104px;
+  }
+}
+.coco-d2-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: 34px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(150, 100, 255, 0.35), transparent);
+  z-index: -1;
+}
+
+.coco-d2-plan {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(196, 166, 255, 0.4);
+  background: rgba(150, 100, 255, 0.16);
+  padding: 5px 12px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e4d8ff;
+}
+
+.coco-d2-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.045);
+  padding: 11px 13px;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+.coco-d2-meta:hover {
+  border-color: rgba(196, 166, 255, 0.4);
+  background: rgba(255, 255, 255, 0.07);
+}
+.coco-d2-meta-icon {
+  display: grid;
+  place-items: center;
+  height: 34px;
+  width: 34px;
+  flex: none;
+  border-radius: 11px;
+  border: 1px solid rgba(196, 166, 255, 0.28);
+  background: linear-gradient(150deg, rgba(196, 166, 255, 0.24), rgba(109, 59, 255, 0.12));
+  color: #d9c8ff;
+}
+
+/* Light-zone panels */
+.coco-d2-panel {
+  border: 1px solid var(--hairline);
+  border-radius: 24px;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfe 100%);
+  box-shadow: rgba(20, 12, 50, 0.05) 0 18px 40px -26px;
+  padding: 20px;
+}
+@media (min-width: 640px) {
+  .coco-d2-panel {
+    padding: 26px 28px;
+  }
+}
+
+.coco-d2-quota {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  background-image: linear-gradient(180deg, #ffffff 0%, #f9f8ff 100%);
+  padding: 16px;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.coco-d2-quota:hover {
+  transform: translateY(-3px);
+  border-color: #d8c9ff;
+  box-shadow: rgba(109, 59, 255, 0.14) 0 16px 32px -18px;
+}
+.coco-d2-bar {
+  height: 7px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #ece9f6;
+}
+.coco-d2-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Tool cards (light zone) */
+.coco-d2-tool {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fafbfd 100%);
+  padding: 16px;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.coco-d2-tool::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--t-light), var(--t-dark));
+  opacity: 0.45;
+  transition: opacity 0.3s ease;
+}
+.coco-d2-tool:hover {
+  transform: translateY(-4px);
+  border-color: var(--t-soft);
+  box-shadow: var(--t-shadow) 0 20px 42px -24px;
+}
+.coco-d2-tool:hover::before {
+  opacity: 1;
+}
+.coco-d2-tool-icon {
+  display: grid;
+  place-items: center;
+  height: 50px;
+  width: 50px;
+  flex: none;
+  border-radius: 15px;
+  border: 1px solid var(--t-light);
+  background: linear-gradient(150deg, var(--t-light), var(--t-dark));
+  color: #fff;
+  box-shadow:
+    rgba(255, 255, 255, 0.4) 0 1px 3px 0 inset,
+    rgba(0, 0, 0, 0.18) 0 -6px 12px 0 inset,
+    var(--t-shadow) 0 10px 22px -10px;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.coco-d2-tool:hover .coco-d2-tool-icon {
+  transform: translateY(-2px) scale(1.04);
+}
+.coco-d2-tool-go {
+  display: grid;
+  place-items: center;
+  height: 32px;
+  width: 32px;
+  flex: none;
+  border-radius: 999px;
+  border: 1px solid var(--hairline);
+  color: #8a8a95;
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.coco-d2-tool:hover .coco-d2-tool-go {
+  color: var(--t-dark);
+  border-color: var(--t-soft);
+  transform: translate(2px, -2px);
+}
+
+/* Tier strip */
+.coco-d2-tierpill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 14px;
+  border: 1px solid var(--hairline);
+  background: #ffffff;
+  padding: 10px 13px;
+  font-size: 13px;
+  color: var(--ink);
+}
+.coco-d2-tierpill[data-current='true'] {
+  border-color: #d8c9ff;
+  background: linear-gradient(180deg, #f7f2ff 0%, #ffffff 100%);
+  box-shadow: rgba(109, 59, 255, 0.12) 0 10px 24px -14px;
+}

@@ -22,6 +22,8 @@ Clone `https://github.com/alifnewone7-create/cc-run.git`, run the site as-is, th
 
 - 2026-06: colour grading shifted from blue to dark purple/indigo (CSS vars --iris/--cyan, hero + shade gradients, buttons, cards, glass, steps, tile accents).
 
+- 2026-07: `/dashboard` rebuilt in the home-page design language. Three sections only: (1) Profile — dark `coco-dark` zone with hero candle/glow backdrop, glass operator panel (avatar ring, tier pill, email/UID-copy/member-since meta, CTAs); (2) Tier — `coco-light coco-curve-top` (same curve as home) with `coco-shade` plan card (limit, reset note, tier ladder, upgrade CTA) + white daily-quota panel (per-tool bars, locked state for Free); (3) Tools — white panel with 6 gradient-tile tool cards. New files: `components/dashboard/dash-glyphs.tsx` (custom premium SVG glyph set), `dash-profile.tsx`, `dash-tier.tsx`, `dash-tools.tsx`; `dashboard-content.tsx` now just composes them. CSS block `Dashboard v2` appended to `coco.css`. Verified desktop 1920 + mobile 390, no overflow.
+
 ## Backlog
 - P1: Wire ticker/terminal to real data (`/api/signals/live`) if desired.
 - P2: Dashboard pages restyle to match new home design system.
