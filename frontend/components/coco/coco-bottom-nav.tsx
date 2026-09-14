@@ -19,6 +19,7 @@ import {
   Crosshair,
 } from 'lucide-react'
 import { useAuth } from '@/components/auth-provider'
+import { BROKERS, storeBroker, type BrokerId } from '@/lib/brokers'
 import { cn } from '@/lib/utils'
 
 const MORE_LINKS = [
@@ -104,6 +105,14 @@ export function CocoBottomNav() {
 
   const analyzerActive = ANALYZERS.some((a) => a.href === pathname)
   const moreActive = MORE_LINKS.some((l) => l.href === pathname)
+
+  function pickBroker(id: BrokerId) {
+    storeBroker(id)
+    setSheet(null)
+    setClosing(false)
+    setDrag(0)
+    router.push('/otc-chart-analyzer')
+  }
 
   async function handleLogout() {
     await logout()
@@ -220,13 +229,13 @@ export function CocoBottomNav() {
                 </div>
               </>
             ) : (
-              <nav className="flex flex-col gap-1.5 px-3 pb-2 pt-1">
+              <div className="px-3 pb-3 pt-1">
                 <div
-                  className="flex touch-none items-center justify-between gap-3 px-3 pb-2"
+                  className="flex touch-none items-center justify-between gap-3 px-3 pb-1"
                   {...grabHandlers}
                 >
                   <p className="coco-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
-                    Choose analyzer
+                    Choose your broker
                   </p>
                   <button
                     type="button"
@@ -238,21 +247,36 @@ export function CocoBottomNav() {
                     <X className="h-4 w-4" />
                   </button>
                 </div>
-                {ANALYZERS.map((l) => (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    className={cn('coco-sheet-link', pathname === l.href && 'is-active')}
-                    data-testid={`bottom-nav-analyzer-${l.href.replace(/\//g, '')}`}
-                  >
-                    <span className="coco-sheet-link-icon">
-                      <l.icon className="h-[18px] w-[18px]" />
-                    </span>
-                    {l.label}
-                    <ChevronRight className="ml-auto h-4 w-4 text-white/30" />
-                  </Link>
-                ))}
-              </nav>
+
+                <div className="coco-arc" data-testid="broker-arc">
+                  {BROKERS.map((b) => (
+                    <button
+                      key={b.id}
+                      type="button"
+                      onClick={() => pickBroker(b.id)}
+                      className="coco-arc-card"
+                      style={
+                        {
+                          '--lift': `${b.lift}px`,
+                          '--tilt': `${b.tilt}deg`,
+                          '--accent': b.accent,
+                        } as React.CSSProperties
+                      }
+                      data-testid={`broker-${b.id}`}
+                    >
+                      <span className="coco-arc-logo">
+                        <Image src={b.logo} alt={b.name} width={34} height={34} />
+                      </span>
+                      <span className="coco-arc-name">{b.name}</span>
+                    </button>
+                  ))}
+                </div>
+
+                <p className="mt-1 px-3 text-center text-[11.5px] leading-relaxed text-white/45">
+                  Pick a broker to open the chart analyzer. You can switch between OTC and Real
+                  inside.
+                </p>
+              </div>
             )}
           </div>
         </div>

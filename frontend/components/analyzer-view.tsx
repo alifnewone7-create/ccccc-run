@@ -4,6 +4,7 @@ import { StarField } from '@/components/star-field'
 import { TopNav } from '@/components/top-nav'
 import { AuthGuard } from '@/components/auth-guard'
 import { ChartAnalyzer } from '@/components/chart-analyzer'
+import { AnalyzerModeSwitch } from '@/components/analyzer-mode-switch'
 
 type Mode = 'otc' | 'real'
 
@@ -15,7 +16,8 @@ export function AnalyzerView({ mode }: { mode: Mode }) {
           <StarField />
           <TopNav />
 
-          <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 lg:py-12">
+          <div className="coco relative z-10 mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 lg:py-12">
+            <AnalyzerModeSwitch mode={mode} />
             <ChartAnalyzer mode={mode} />
           </div>
         </main>
