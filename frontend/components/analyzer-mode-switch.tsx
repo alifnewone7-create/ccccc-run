@@ -48,10 +48,10 @@ export function AnalyzerModeSwitch({ mode }: { mode: Mode }) {
 
   return (
     <div
-      className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between"
+      className="flex flex-row items-center justify-between gap-3"
       data-testid="analyzer-mode-switch"
     >
-      <div className="coco-seg" role="tablist" aria-label="Analyzer mode">
+      <div className="coco-seg order-2 sm:order-1" role="tablist" aria-label="Analyzer mode">
         {TABS.map((tab) => {
           const active = tab.mode === mode
           return (
@@ -76,7 +76,7 @@ export function AnalyzerModeSwitch({ mode }: { mode: Mode }) {
       <button
         type="button"
         onClick={() => setPicker(true)}
-        className="coco-broker-chip"
+        className="coco-broker-chip order-1 sm:order-2"
         data-testid="analyzer-broker-chip"
       >
         <span className="coco-broker-chip-logo">
