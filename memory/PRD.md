@@ -24,6 +24,8 @@ Clone `https://github.com/alifnewone7-create/cc-run.git`, run the site as-is, th
 
 - 2026-07: `/dashboard` rebuilt in the home-page design language. Three sections only: (1) Profile — dark `coco-dark` zone with hero candle/glow backdrop, glass operator panel (avatar ring, tier pill, email/UID-copy/member-since meta, CTAs); (2) Tier — `coco-light coco-curve-top` (same curve as home) with `coco-shade` plan card (limit, reset note, tier ladder, upgrade CTA) + white daily-quota panel (per-tool bars, locked state for Free); (3) Tools — white panel with 6 gradient-tile tool cards. New files: `components/dashboard/dash-glyphs.tsx` (custom premium SVG glyph set), `dash-profile.tsx`, `dash-tier.tsx`, `dash-tools.tsx`; `dashboard-content.tsx` now just composes them. CSS block `Dashboard v2` appended to `coco.css`. Verified desktop 1920 + mobile 390, no overflow.
 
+- 2026-07: analyzer pages (`/otc-chart-analyzer`, `/real-chart-analyzer`) redesigned with the home design system: `analyzer-view.tsx` now renders coco-dark hero zone (CocoHeroBg backdrop, eyebrow/title/lead, mode switch row, glass `.coco-analyzer-panel` wrapping ChartAnalyzer) + light `coco-curve-top` "three steps" section; StarField dropped. `.coco-analyzer` scope re-grades app tokens (--primary/--accent) and re-skins surface-luxe/border-luxe/btn-luxe to the iris purple grading. Broker arc picker (`lib/brokers.ts`, arc cards in the analyzer bottom sheet + `analyzer-mode-switch.tsx` chip/modal) added: Binolla / Quotex / Pocket Option, stored in localStorage, OTC↔Real instant route switch.
+
 ## Backlog
 - P1: Wire ticker/terminal to real data (`/api/signals/live`) if desired.
 - P2: Dashboard pages restyle to match new home design system.
