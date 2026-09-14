@@ -335,25 +335,42 @@ export function ChartAnalyzer({ mode }: { mode: AnalyzerMode }) {
                 onDragLeave={() => setDragging(false)}
                 onDrop={onDrop}
                 onPaste={onPaste}
-                className={cn(
-                  'group flex w-full flex-col items-center justify-center gap-4 rounded-2xl border border-dashed px-6 py-14 text-center transition-all sm:py-16',
-                  dragging
-                    ? 'border-accent bg-accent/10'
-                    : 'border-border bg-input/20 hover:border-accent/45 hover:bg-input/35',
-                )}
+                className={cn('coco-drop', dragging && 'is-dragging')}
+                data-testid="analyzer-dropzone"
               >
-                <span className="btn-luxe flex h-16 w-16 items-center justify-center rounded-2xl transition-transform group-hover:scale-105">
-                  <Upload className="icon-float h-7 w-7 text-primary-foreground" />
-                </span>
-                <span className="text-lg font-bold tracking-tight sm:text-xl">
-                  Drop your chart to begin
-                </span>
-                <span className="max-w-xs text-pretty text-sm leading-relaxed text-muted-foreground">
-                  Tap to browse, drag &amp; drop, or paste a screenshot of your
-                  candlestick chart.
-                </span>
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground/70">
-                  PNG · JPG · WEBP
+                <span className="coco-drop-grid" aria-hidden="true" />
+                <span className="coco-drop-sweep" aria-hidden="true" />
+                <span className="coco-drop-corner coco-drop-corner--tl" aria-hidden="true" />
+                <span className="coco-drop-corner coco-drop-corner--tr" aria-hidden="true" />
+                <span className="coco-drop-corner coco-drop-corner--bl" aria-hidden="true" />
+                <span className="coco-drop-corner coco-drop-corner--br" aria-hidden="true" />
+
+                <span className="coco-drop-body">
+                  <span className="coco-drop-core">
+                    <span className="coco-drop-ring" aria-hidden="true" />
+                    <span className="coco-drop-ring coco-drop-ring--slow" aria-hidden="true" />
+                    <span className="coco-drop-core-tile">
+                      <Upload className="h-6 w-6" />
+                    </span>
+                  </span>
+
+                  <span className="coco-drop-title">
+                    {dragging ? 'Release to load the chart' : 'Drop your chart to begin'}
+                  </span>
+                  <span className="coco-drop-sub">
+                    Tap to browse, drag &amp; drop, or paste a screenshot of your candlestick chart.
+                  </span>
+
+                  <span className="coco-drop-chips">
+                    <span className="coco-drop-chip">PNG</span>
+                    <span className="coco-drop-chip">JPG</span>
+                    <span className="coco-drop-chip">WEBP</span>
+                  </span>
+
+                  <span className="coco-drop-cta">
+                    <Scan className="h-4 w-4" />
+                    Select screenshot
+                  </span>
                 </span>
               </button>
             )}
