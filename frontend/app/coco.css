@@ -713,217 +713,211 @@
 }
 
 /* ── Analyzer upload bay ─────────────────────────────────────────────── */
+/* ── Analyzer upload bay: single gradient card ───────────────────────── */
 .coco-drop {
   position: relative;
   display: block;
   width: 100%;
   overflow: hidden;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  border: 1px solid rgba(196, 166, 255, 0.28);
   background:
-    radial-gradient(90% 70% at 50% 0%, rgba(150, 100, 255, 0.2), transparent 62%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015));
-  padding: 34px 20px;
+    radial-gradient(85% 70% at 50% 0%, rgba(176, 130, 255, 0.3), transparent 64%),
+    linear-gradient(165deg, #2c1a6b 0%, #1d1049 46%, #130a33 100%);
+  padding: 40px 22px 34px;
   text-align: center;
+  box-shadow:
+    rgba(255, 255, 255, 0.12) 0 1px 0 0 inset,
+    rgba(109, 59, 255, 0.28) 0 30px 70px -34px,
+    rgba(8, 3, 24, 0.6) 0 24px 48px -30px;
   transition:
     border-color 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 @media (min-width: 640px) {
   .coco-drop {
-    padding: 46px 28px;
-    border-radius: 28px;
+    padding: 62px 40px 54px;
+    border-radius: 34px;
   }
 }
 .coco-drop:hover {
-  border-color: rgba(196, 166, 255, 0.45);
-  box-shadow: rgba(109, 59, 255, 0.35) 0 22px 48px -26px;
+  border-color: rgba(214, 192, 255, 0.55);
+  transform: translateY(-2px);
+  box-shadow:
+    rgba(255, 255, 255, 0.16) 0 1px 0 0 inset,
+    rgba(109, 59, 255, 0.45) 0 34px 74px -30px;
 }
 .coco-drop.is-dragging {
-  border-color: rgba(196, 166, 255, 0.85);
-  box-shadow: rgba(109, 59, 255, 0.5) 0 24px 54px -22px;
-  transform: scale(1.005);
+  border-color: rgba(226, 210, 255, 0.9);
+  transform: translateY(-2px) scale(1.004);
+  box-shadow:
+    rgba(255, 255, 255, 0.2) 0 1px 0 0 inset,
+    rgba(138, 83, 255, 0.55) 0 34px 78px -26px;
+}
+/* top light sheen */
+.coco-drop-sheen {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(226, 210, 255, 0.85), transparent);
 }
 .coco-drop-grid {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(198, 210, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(198, 210, 255, 0.07) 1px, transparent 1px);
-  background-size: 34px 34px;
-  mask-image: radial-gradient(80% 70% at 50% 40%, #000 10%, transparent 76%);
-  -webkit-mask-image: radial-gradient(80% 70% at 50% 40%, #000 10%, transparent 76%);
+    linear-gradient(to right, rgba(216, 201, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(216, 201, 255, 0.08) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: radial-gradient(75% 65% at 50% 38%, #000 8%, transparent 74%);
+  -webkit-mask-image: radial-gradient(75% 65% at 50% 38%, #000 8%, transparent 74%);
 }
 .coco-drop-sweep {
   position: absolute;
-  inset-inline: 8%;
+  inset-inline: 10%;
   top: 0;
-  height: 2px;
+  height: 1px;
   pointer-events: none;
   border-radius: 999px;
-  background: linear-gradient(90deg, transparent, rgba(196, 166, 255, 0.85), transparent);
-  filter: blur(0.4px);
-  animation: coco-drop-scan 4.6s ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, rgba(214, 192, 255, 0.32), transparent);
+  animation: coco-drop-scan 6s ease-in-out infinite;
 }
 @keyframes coco-drop-scan {
   0%,
   100% {
-    transform: translateY(6px);
+    transform: translateY(4px);
     opacity: 0;
   }
-  12% {
-    opacity: 0.9;
+  15% {
+    opacity: 1;
   }
   50% {
-    transform: translateY(var(--scan-end, 210px));
-    opacity: 0.9;
+    transform: translateY(240px);
+    opacity: 1;
   }
-  88% {
+  85% {
     opacity: 0;
   }
-}
-.coco-drop-corner {
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  pointer-events: none;
-  border-color: rgba(196, 166, 255, 0.7);
-  transition: border-color 0.3s ease;
-}
-.coco-drop-corner--tl {
-  top: 14px;
-  left: 14px;
-  border-top: 2px solid;
-  border-left: 2px solid;
-  border-top-left-radius: 8px;
-}
-.coco-drop-corner--tr {
-  top: 14px;
-  right: 14px;
-  border-top: 2px solid;
-  border-right: 2px solid;
-  border-top-right-radius: 8px;
-}
-.coco-drop-corner--bl {
-  bottom: 14px;
-  left: 14px;
-  border-bottom: 2px solid;
-  border-left: 2px solid;
-  border-bottom-left-radius: 8px;
-}
-.coco-drop-corner--br {
-  bottom: 14px;
-  right: 14px;
-  border-bottom: 2px solid;
-  border-right: 2px solid;
-  border-bottom-right-radius: 8px;
 }
 .coco-drop-body {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+}
+.coco-drop-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(214, 192, 255, 0.34);
+  background: rgba(255, 255, 255, 0.07);
+  padding: 5px 12px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(235, 226, 255, 0.78);
 }
 .coco-drop-core {
   position: relative;
   display: grid;
   place-items: center;
-  height: 92px;
-  width: 92px;
+  height: 96px;
+  width: 96px;
+  margin-top: 2px;
 }
 .coco-drop-ring {
   position: absolute;
-  inset: 6px;
+  inset: 8px;
   border-radius: 999px;
-  border: 1px solid rgba(196, 166, 255, 0.35);
-  animation: coco-drop-pulse 3.4s ease-out infinite;
+  border: 1px solid rgba(214, 192, 255, 0.38);
+  animation: coco-drop-pulse 3.6s ease-out infinite;
 }
 .coco-drop-ring--slow {
   inset: 0;
-  border-color: rgba(196, 166, 255, 0.18);
-  animation-delay: -1.7s;
+  border-color: rgba(214, 192, 255, 0.18);
+  animation-delay: -1.8s;
 }
 @keyframes coco-drop-pulse {
   0% {
-    transform: scale(0.86);
-    opacity: 0.15;
+    transform: scale(0.84);
+    opacity: 0.1;
   }
   55% {
-    opacity: 0.75;
+    opacity: 0.7;
   }
   100% {
-    transform: scale(1.12);
+    transform: scale(1.14);
     opacity: 0;
   }
 }
 .coco-drop-core-tile {
   display: grid;
   place-items: center;
-  height: 54px;
-  width: 54px;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  background: linear-gradient(160deg, #a06bff 0%, #7433ff 48%, #4a15c9 100%);
+  height: 58px;
+  width: 58px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(160deg, #b98cff 0%, #8a53ff 46%, #5a22dd 100%);
   color: #fff;
   box-shadow:
-    rgba(255, 255, 255, 0.35) 0 1px 0 0 inset,
-    rgba(124, 69, 255, 0.55) 0 14px 30px -12px;
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    rgba(255, 255, 255, 0.4) 0 1px 0 0 inset,
+    rgba(124, 69, 255, 0.6) 0 16px 34px -12px;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .coco-drop:hover .coco-drop-core-tile {
-  transform: translateY(-2px) scale(1.04);
+  transform: translateY(-3px) scale(1.05);
 }
 .coco-drop-title {
   font-family: var(--font-display), ui-sans-serif, sans-serif;
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #fff;
+  background-image: linear-gradient(100deg, #ffffff 0%, #e6dbff 52%, #c4a6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 @media (min-width: 640px) {
   .coco-drop-title {
-    font-size: 22px;
+    font-size: 26px;
   }
 }
 .coco-drop-sub {
-  max-width: 34ch;
+  max-width: 36ch;
   font-size: 13px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.65;
+  color: rgba(235, 226, 255, 0.6);
 }
-.coco-drop-chips {
-  display: flex;
-  gap: 7px;
-}
-.coco-drop-chip {
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 4px 10px;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 9.5px;
-  letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.55);
+@media (min-width: 640px) {
+  .coco-drop-sub {
+    font-size: 14px;
+  }
 }
 .coco-drop-cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 4px;
-  border-radius: 14px;
-  border: 1px solid rgba(196, 166, 255, 0.4);
-  background: linear-gradient(180deg, rgba(196, 166, 255, 0.24), rgba(109, 59, 255, 0.16));
-  padding: 10px 18px;
-  font-size: 13.5px;
+  margin-top: 6px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(180deg, #9a66ff 0%, #7a41ff 52%, #6130e6 100%);
+  padding: 12px 22px;
+  font-size: 14px;
   font-weight: 600;
-  color: #efe7ff;
+  color: #fff;
+  box-shadow:
+    rgba(255, 255, 255, 0.3) 0 1px 0 0 inset,
+    rgba(109, 59, 255, 0.5) 0 14px 30px -14px;
   transition: filter 0.25s ease, transform 0.25s ease;
 }
 .coco-drop:hover .coco-drop-cta {
-  filter: brightness(1.12);
+  filter: brightness(1.1);
   transform: translateY(-1px);
 }
 

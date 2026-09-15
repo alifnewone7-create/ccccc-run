@@ -279,6 +279,51 @@ export function ChartAnalyzer({ mode }: { mode: AnalyzerMode }) {
             Analyze another chart
           </Button>
         </div>
+      ) : !preview ? (
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          onDragOver={(e) => {
+            e.preventDefault()
+            setDragging(true)
+          }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={onDrop}
+          onPaste={onPaste}
+          className={cn('coco-drop', dragging && 'is-dragging')}
+          data-testid="analyzer-dropzone"
+        >
+          <span className="coco-drop-sheen" aria-hidden="true" />
+          <span className="coco-drop-grid" aria-hidden="true" />
+          <span className="coco-drop-sweep" aria-hidden="true" />
+
+          <span className="coco-drop-body">
+            <span className="coco-drop-tag">
+              <Cpu className="h-3 w-3" />
+              {mode === 'real' ? 'Real market engine' : 'OTC engine'}
+            </span>
+
+            <span className="coco-drop-core">
+              <span className="coco-drop-ring" aria-hidden="true" />
+              <span className="coco-drop-ring coco-drop-ring--slow" aria-hidden="true" />
+              <span className="coco-drop-core-tile">
+                <Upload className="h-6 w-6" />
+              </span>
+            </span>
+
+            <span className="coco-drop-title">
+              {dragging ? 'Release to load the chart' : 'Drop your chart to begin'}
+            </span>
+            <span className="coco-drop-sub">
+              Tap to browse, drag &amp; drop, or paste a screenshot of your chart.
+            </span>
+
+            <span className="coco-drop-cta">
+              <Scan className="h-4 w-4" />
+              Select screenshot
+            </span>
+          </span>
+        </button>
       ) : (
         <section className="border-luxe surface-luxe card-corner-glow relative overflow-hidden rounded-3xl">
           {/* Terminal-style header, flush with the top of the card */}
@@ -323,58 +368,6 @@ export function ChartAnalyzer({ mode }: { mode: AnalyzerMode }) {
           </div>
 
           <div className="relative z-10 flex flex-col gap-5 p-5 sm:p-6">
-            {/* Empty state — upload dropzone */}
-            {!preview && (
-              <button
-                type="button"
-                onClick={() => inputRef.current?.click()}
-                onDragOver={(e) => {
-                  e.preventDefault()
-                  setDragging(true)
-                }}
-                onDragLeave={() => setDragging(false)}
-                onDrop={onDrop}
-                onPaste={onPaste}
-                className={cn('coco-drop', dragging && 'is-dragging')}
-                data-testid="analyzer-dropzone"
-              >
-                <span className="coco-drop-grid" aria-hidden="true" />
-                <span className="coco-drop-sweep" aria-hidden="true" />
-                <span className="coco-drop-corner coco-drop-corner--tl" aria-hidden="true" />
-                <span className="coco-drop-corner coco-drop-corner--tr" aria-hidden="true" />
-                <span className="coco-drop-corner coco-drop-corner--bl" aria-hidden="true" />
-                <span className="coco-drop-corner coco-drop-corner--br" aria-hidden="true" />
-
-                <span className="coco-drop-body">
-                  <span className="coco-drop-core">
-                    <span className="coco-drop-ring" aria-hidden="true" />
-                    <span className="coco-drop-ring coco-drop-ring--slow" aria-hidden="true" />
-                    <span className="coco-drop-core-tile">
-                      <Upload className="h-6 w-6" />
-                    </span>
-                  </span>
-
-                  <span className="coco-drop-title">
-                    {dragging ? 'Release to load the chart' : 'Drop your chart to begin'}
-                  </span>
-                  <span className="coco-drop-sub">
-                    Tap to browse, drag &amp; drop, or paste a screenshot of your candlestick chart.
-                  </span>
-
-                  <span className="coco-drop-chips">
-                    <span className="coco-drop-chip">PNG</span>
-                    <span className="coco-drop-chip">JPG</span>
-                    <span className="coco-drop-chip">WEBP</span>
-                  </span>
-
-                  <span className="coco-drop-cta">
-                    <Scan className="h-4 w-4" />
-                    Select screenshot
-                  </span>
-                </span>
-              </button>
-            )}
-
             {/* Preview + analyzing overlay */}
             {preview && (
               <>

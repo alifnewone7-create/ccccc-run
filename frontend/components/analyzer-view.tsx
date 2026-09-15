@@ -29,10 +29,7 @@ export function AnalyzerView({ mode }: { mode: Mode }) {
               <div className="relative z-10 mx-auto flex max-w-[980px] flex-col gap-5 px-4 pb-32 pt-6 sm:px-6 sm:pt-8 md:pb-20">
                 <AnalyzerModeSwitch mode={mode} />
 
-                <div className="coco-analyzer-panel">
-                  <span className="coco-d2-hero-line" aria-hidden="true" />
-                  <ChartAnalyzer mode={mode} />
-                </div>
+                <ChartAnalyzer mode={mode} />
               </div>
             </div>
           </div>
